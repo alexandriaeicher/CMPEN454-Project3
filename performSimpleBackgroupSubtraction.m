@@ -1,0 +1,2 @@
+function sbsImage = performSimpleBackgroupSubtraction(grayscaleImage)
+end

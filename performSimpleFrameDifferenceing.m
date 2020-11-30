@@ -1,0 +1,2 @@
+function sfdImage = performSimpleFrameDifferenceing(grayscaleImage)
+end

@@ -1,0 +1,2 @@
+function absImage = performAdaptiveBackgroundSubtraction(grayscaleImage)
+end
