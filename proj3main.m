@@ -1,18 +1,32 @@
-function grayscaleImage = proj3main(dirstring ) %, maxframenum, abs_diff_threshold, alpha_parameter, gamma_parameter)
+
+%function grayscaleImage = proj3main(dirstring) 
+
+%, maxframenum, abs_diff_threshold, alpha_parameter, gamma_parameter)
 % dirstring = directory where numbered input image files are read from. You 
 % can assume the filename format of the images is f0001.jpg , f0002.jpg, 
 % f0003.jpg, … and so on.
+%function grayscaleImage = proj3main(dirstring, maxframenum, abs_diff_threshold, alpha_parameter, gamma_parameter)
+function grayscaleImage = proj3main(dirstring, maxframenum, abs_diff_threshold)
 
+files = dir(fullfile(dirstring, '*.jpg'));   
+%fileCount = length(files);% Number of files found
 
-files = dir(strcat(dirstring, '*.jpg'));   
-fileCount = length(files);    % Number of files found
+%disp(fileCount)
 
-for i=1:fileCount
+for i=1:maxframenum
    % 1. read in each image in a loop and convert it to grayscale
    filename = files(i).name;
-   rgbImage = imread(strcat(dirstring, filename));
+   rgbImage = imread(fullfile(dirstring,filename));
    grayscaleImage = rgb2gray(rgbImage);
+   B = rgb2gray(imread(fullfile(dirstring,files(1).name)));
+   sbs = performSimpleBackgroupSubtraction(B, grayscaleImage, abs_diff_threshold);
+   imshow(sbs)
+   %imshow(B)
+   %imshow(grayscaleImage(1))
+ %  imshow(grayscaleImage);
 end
+%imshow(grayscaleImage);
+%imshow(B);
 
 % maxframenum = integer which is the frame number of the last image file in 
 % the sequence (the frame number of the first image file will always be 1). 
