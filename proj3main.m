@@ -1,4 +1,3 @@
-
 %function grayscaleImage = proj3main(dirstring) 
 
 %, maxframenum, abs_diff_threshold, alpha_parameter, gamma_parameter)
@@ -6,7 +5,7 @@
 % can assume the filename format of the images is f0001.jpg , f0002.jpg, 
 % f0003.jpg, … and so on.
 %function grayscaleImage = proj3main(dirstring, maxframenum, abs_diff_threshold, alpha_parameter, gamma_parameter)
-function grayscaleImage = proj3main(dirstring, maxframenum, abs_diff_threshold)
+function grayscaleImage = proj3main(dirstring, maxframenum, abs_diff_threshold, alpha_parameter)
 
 files = dir(fullfile(dirstring, '*.jpg'));   
 %fileCount = length(files);% Number of files found
@@ -16,12 +15,17 @@ files = dir(fullfile(dirstring, '*.jpg'));
 for i=1:maxframenum
    % 1. read in each image in a loop and convert it to grayscale
    filename = files(i).name;
+   adaptfile = files(i+1).name;
    rgbImage = imread(fullfile(dirstring,filename));
+   adaptrgbImage = imread(fullfile(dirstring,adaptfile));
    grayscaleImage = rgb2gray(rgbImage);
+   adaptgrayscaleImage = rgb2gray(adaptrgbImage);
    B = rgb2gray(imread(fullfile(dirstring,files(1).name)));
+   adaptB = rgb2gray((grayscaleImage*(1-alpha_parameter)) + (imread(fullfile(dirstring,adaptfile))*alpha_parameter));
    sbs = performSimpleBackgroupSubtraction(B, grayscaleImage, abs_diff_threshold);
-   imshow(sbs)
-   %imshow(B)
+   abs = performAdaptiveBackgroundSubtraction(adaptB, abs_diff_threshold, adaptgrayscaleImage);
+   %imshow(sbs)
+   imshow(abs)
    %imshow(grayscaleImage(1))
  %  imshow(grayscaleImage);
 end
