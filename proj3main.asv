@@ -20,11 +20,9 @@ function grayscaleImage = proj3main(dirstring, maxframenum, abs_diff_threshold, 
        B_pfd = rgb2gray(imread(fullfile(dirstring,files(i-1).name)));
        [pfdImage, H_pfd] = performPersistentFrameDifferencing(B_pfd, H_pfd, grayscaleImage, abs_diff_threshold, gamma_parameter);
        
-       spacer1 = ones(243, 2);
-       spacer2 = ones(2, 320);
-       spacer3 = ones(2,2);
-       fprintf("%d\n", size(sbsImage, 2));
-       outImage = [sbsImage spacer1 sfdImage; spacer2 spacer3 spacer2; absImage spacer1 pfdImage];
+       spacer = zeros(rows, columns, 'uint8');
+       wideMatrix = [A, spacer, B];
+       outImage = [sbsImage spacer sfdImage; absImage spacer pfdImage];
        imshow(outImage);
     end
 end
